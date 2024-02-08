@@ -47,7 +47,7 @@ namespace TextfileFilterApp
             sortedFilteredEntries.Sort((x, y) => GetReferenceCode(x).CompareTo(GetReferenceCode(y)));
 
             // Write the filtered log entries to a new text file
-            File.WriteAllLines(finalOutputFilePath, filteredEntries);
+            File.WriteAllLines(finalOutputFilePath, sortedFilteredEntries);
         }
 
         static void FilterLogEntriesAndSortByDifferences(string logFilePath, string filterOutputFilePath, string filterItem)
@@ -64,7 +64,6 @@ namespace TextfileFilterApp
             string finalOutputFilePath = GetAvailableFileName(filterOutputFilePath);
 
             // Filter log entries containing the desired phrase
-            //A HashSet<string> automatically removes duplicates,
             HashSet<string> filteredEntries = new HashSet<string>();
             foreach (string entry in logEntries)
             {
@@ -74,13 +73,12 @@ namespace TextfileFilterApp
                 }
             }
 
-            // Sort the unique entries by reference code
+            // Sort the unique entries by the difference
             List<string> sortedFilteredEntries = new List<string>(filteredEntries);
-
             sortedFilteredEntries.Sort((x, y) => GetDifference(x).CompareTo(GetDifference(y)));
 
             // Write the filtered log entries to a new text file
-            File.WriteAllLines(finalOutputFilePath, filteredEntries);
+            File.WriteAllLines(finalOutputFilePath, sortedFilteredEntries);
         }
 
         static string GetAvailableFileName(string originalFilePath)
